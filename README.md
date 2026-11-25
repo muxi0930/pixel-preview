@@ -2,7 +2,7 @@
 
 在画布中按 1×、2× 或 5× 预览 PNG 像素图，保留像素颜色和透明度。
 
-An [OhMyGame](https://github.com/WhiteTowerAI/ohmygame) plugin, `cmsgbq/pixel-preview`.
+An [OhMyGame](https://github.com/WhiteTowerAI/ohmygame) plugin, `muxi0930/pixel-preview`.
 
 ## Develop
 
@@ -18,7 +18,7 @@ Translate `locales/zh-CN.json`; until then it repeats `locales/en.json`.
 
 OhMyGame's market lists plugins released on GitHub, in a public repository
 with the topic `ohmygame-plugin` owned by the user or organization whose
-name, lowercased, is the publisher `cmsgbq`. For each release:
+name, lowercased, is the publisher `muxi0930`. For each release:
 
 1. Raise `version` in both `package.json` and
    `.ohmygame-plugin/plugin.json`.
