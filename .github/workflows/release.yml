@@ -1,0 +1,40 @@
+name: Release
+
+# On a tag v<version>, packs the plugin and attaches it to the tag's release.
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PACKAGE: ${{ github.event.repository.name }}-${{ github.ref_name }}.zip
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+      - name: Check the tag is the plugin's version
+        run: |
+          version=$(node -p "require('./.ohmygame-plugin/plugin.json').version")
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then echo "::error::The tag $GITHUB_REF_NAME isn't v$version, the plugin's version"; exit 1; fi
+      - run: npm install
+      - run: npm run check
+      - name: Pack what package.json lists, at the top of a .zip
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          mkdir "$RUNNER_TEMP/unpacked"
+          tar -xzf "$RUNNER_TEMP"/*.tgz -C "$RUNNER_TEMP/unpacked"
+          cd "$RUNNER_TEMP/unpacked/package" && zip -qrX "$RUNNER_TEMP/$PACKAGE" .
+      - name: Attach it to the release
+        run: |
+          gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1 || gh release create "$GITHUB_REF_NAME" --verify-tag --title "$GITHUB_REF_NAME" --notes ""
+          # A release holds one package; one published from OhMyGame has it already.
+          if [ -z "$(gh release view "$GITHUB_REF_NAME" --json assets --jq '.assets[].name | select(endswith(".zip"))')" ]; then
+            gh release upload "$GITHUB_REF_NAME" "$RUNNER_TEMP/$PACKAGE"
+          fi

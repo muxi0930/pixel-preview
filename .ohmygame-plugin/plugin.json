@@ -1,0 +1,50 @@
+{
+  "id": "cmsgbq/pixel-preview",
+  "version": "0.1.0",
+  "engines": {
+    "ohmygame-api": "^2.37.0"
+  },
+  "displayName": "像素预览",
+  "description": "在画布中按 1×、2× 或 5× 预览 PNG 像素图，保留像素颜色和透明度。",
+  "examples": [
+    "在画布中添加「像素预览」节点，连接一张 PNG 像素图，选择 5× 后运行。"
+  ],
+  "capabilities": {
+    "native": true
+  },
+  "entrypoints": {
+    "native": "./native/index.mjs"
+  },
+  "contributes": {
+    "canvasNodes": [
+      {
+        "id": "pixel-preview",
+        "title": "像素预览",
+        "description": "接入 PNG 像素图，选择倍率后运行。每个原像素按倍率复制为方块。",
+        "inputs": [
+          {
+            "id": "image",
+            "title": "原图（PNG）",
+            "accepts": "image"
+          }
+        ],
+        "params": {
+          "zoom": {
+            "type": "select",
+            "title": "预览倍率",
+            "default": "1×",
+            "options": [
+              "1×",
+              "2×",
+              "5×"
+            ]
+          }
+        },
+        "output": "image",
+        "run": {
+          "native": "previewPixels"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "name": "@cmsgbq/pixel-preview",
+  "version": "0.1.0",
+  "license": "MIT",
+  "description": "在画布中按 1×、2× 或 5× 预览 PNG 像素图，保留像素颜色和透明度。",
+  "keywords": [
+    "ohmygame-plugin"
+  ],
+  "files": [
+    ".ohmygame-plugin",
+    "native"
+  ],
+  "scripts": {
+    "check": "ohmygame-plugin check",
+    "pack": "ohmygame-plugin pack"
+  },
+  "devDependencies": {
+    "@ohmygame/plugin-cli": "^2.37.0"
+  }
+}
